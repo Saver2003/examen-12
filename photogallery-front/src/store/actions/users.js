@@ -55,7 +55,6 @@ export const loginUser = userData => {
 
 export const logoutUser = () => {
   return (dispatch, getState) => {
-  console.log(dispatch);
     const token = getState().users.user.token;
     const headers = {'Token': token};
     axios.delete('/users/sessions', {headers}).then(
