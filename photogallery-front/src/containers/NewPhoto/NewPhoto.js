@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {PageHeader} from "react-bootstrap";
 
 import {addPhoto} from "../../store/actions/photo";
+import PhotoForm from "../../components/PhotoForm/PhotoForm";
 
 class NewPhoto extends Component {
 
