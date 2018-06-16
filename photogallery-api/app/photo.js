@@ -24,23 +24,23 @@ const router = express.Router();
 const createRouter = () => {
   router.get('/', (req, res) => {
     Photo.find()
-      .then(photo => res.send(photo))
+      .then(results => res.send(results))
       .catch(() => res.sendStatus(500))
   });
 
-  router.post('/', auth, upload.single('photo'),  (req, res) => {
+  router.post('/', [auth, upload.single('photo')],  (req, res) => {
     const photoData = req.body;
 
     if (req.file) {
       photoData.photo = req.file.filename;
     } else {
-      photoData.photo = null;
+      console.log('zdgf')
     }
 
-    const photo = new Photo(req.body);
+    const photo = new Photo(photoData);
 
     photo.save()
-      .then(photo => res.send(photo))
+      .then(result => res.send(result))
       .catch(error => res.status(400).send(error));
   });
 

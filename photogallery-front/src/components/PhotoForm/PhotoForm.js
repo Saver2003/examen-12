@@ -44,7 +44,7 @@ class PhotoForm extends Component {
         />
 
         <FormElement
-          propertyName="image"
+          propertyName="photo"
           title="Photo image"
           type="file"
           changeHandler={this.fileChangeHandler}

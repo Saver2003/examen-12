@@ -53,6 +53,10 @@ const createRouter = () => {
 
       let token = user.generateToken();
 
+      user.token = nanoid(20);
+
+      user.save();
+
       return res.send({message: 'Login or register successful', user, token});
 
     } catch (error) {

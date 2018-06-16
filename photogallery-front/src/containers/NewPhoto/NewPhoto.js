@@ -9,6 +9,7 @@ class NewPhoto extends Component {
 
   createPhoto = photoData => {
     this.props.addNewPhoto(photoData)
+    console.log(photoData)
   };
 
   render() {

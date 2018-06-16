@@ -4,6 +4,7 @@ import {Redirect, Route, Switch} from "react-router-dom";
 import Register from "./containers/Register/Register";
 import Login from "./containers/Login/Login";
 import NewPhoto from "./containers/NewPhoto/NewPhoto";
+import Photo from "./containers/Photo/Photo";
 
 const ProtectedRoute = ({isAllowed, ...props}) => (
   isAllowed ? <Route {...props}/> : <Redirect to="/login" />
@@ -11,10 +12,10 @@ const ProtectedRoute = ({isAllowed, ...props}) => (
 
 const Routes = ({user}) => (
   <Switch>
-    {/*<Route path="/" exact component={Products}/>*/}
+    <Route path="/" exact component={Photo}/>
     <ProtectedRoute
       isAllowed={user}
-      path="/photo/new"
+      path="/new"
       exact
       component={NewPhoto}
     />
