@@ -2,7 +2,7 @@ import thunkMiddleware from "redux-thunk";
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import {routerMiddleware, routerReducer} from "react-router-redux";
 import createHistory from "history/createBrowserHistory";
-import createSagaMiddleware from 'redux-saga';
+// import createSagaMiddleware from 'redux-saga';
 
 import usersReducer from "./reducers/users";
 import {saveState, loadState} from "./localStorage";
@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
 
 export const history = createHistory();
 
-const sagaMiddleware = createSagaMiddleware();
+// const sagaMiddleware = createSagaMiddleware();
 
 const middleware = [
   thunkMiddleware,
