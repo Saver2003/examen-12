@@ -3,8 +3,9 @@ const https = require('https');
 const request = require('request-promise-native');
 
 const User = require('../models/User');
+const auth = require('../middleware/auth');
 const config = require('../config');
-const nanoid = require('nanoid');
+const nanoid = require("nanoid");
 
 const createRouter = () => {
   const router = express.Router();
@@ -21,13 +22,13 @@ const createRouter = () => {
   });
 
   router.post('/facebookLogin', async (req, res) => {
-    console.log(config.facebook.appId, config.facebook.appSecret)
     const debugTokenUrl = `https://graph.facebook.com/debug_token?input_token=${req.body.accessToken}&access_token=${config.facebook.appId}|${config.facebook.appSecret}`;
 
     try {
       const response = await request(debugTokenUrl);
 
       const decodedResponse = JSON.parse(response);
+      console.log(decodedResponse);
 
       if (decodedResponse.data.error) {
         return res.status(401).send({message: 'Facebook token incorrect'});
@@ -47,15 +48,54 @@ const createRouter = () => {
           displayName: req.body.name
         });
 
-        user.save();
+        await user.save();
       }
 
       let token = user.generateToken();
 
       return res.send({message: 'Login or register successful', user, token});
+
     } catch (error) {
       return res.status(401).send({message: 'Facebook token incorrect'});
     }
+  });
+
+  router.post('/sessions', async (req, res) => {
+    const user = await User.findOne({username: req.body.username});
+
+    if (!user) {
+      return res.status(400).send({error: 'Username not found'});
+    }
+
+    const isMatch = await user.checkPassword(req.body.password);
+
+    if (!isMatch) {
+      return res.status(400).send({error: 'Password is wrong!'});
+    }
+
+    const token = user.generateToken();
+
+    return res.send({message: 'User and password correct!', user, token});
+  });
+
+  router.post('/verify', auth, (req, res) => {
+    res.send({message: 'Token valid'});
+  });
+
+  router.delete('/sessions', async (req, res) => {
+    const token = req.get('Token');
+    const success = {message: 'Logout success!'};
+
+    if (!token) return res.send(success);
+
+    const user = await User.findOne({token});
+
+    if (!user) return res.send(success);
+
+    user.generateToken();
+    await user.save();
+
+    return res.send(success);
   });
 
   return router;

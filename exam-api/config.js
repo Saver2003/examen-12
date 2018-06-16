@@ -10,8 +10,8 @@ module.exports = {
     name: 'exam-12'
   },
   facebook: {
-    appId: "000", // Enter your app ID here
-    appSecret: "000" // Enter your app secret here
+    appId: "173688026658472", // Enter your app ID here
+    appSecret: "a94716239e361ad2131a51d23bacfee9" // Enter your app secret here
   }
 };
 
