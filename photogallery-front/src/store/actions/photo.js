@@ -6,7 +6,7 @@ export const addPhotoSuccess = () => {
   return {type: ADD_PHOTO_SUCCESS}
 };
 
-const addPhoto = photoData => {
+export const addPhoto = photoData => {
   return dispatch => {
     return axios.post('/photo', photoData).then(
       response => {
